@@ -19,7 +19,7 @@ export class MyElement extends LitElement {
   _dataFormat(data){
     let characters=[];
     
-    data["results"].forEach((character)=>{
+    data["tracks"].forEach((character)=>{
       characters.push({
         img:character.image,
         name:character.name,
@@ -32,7 +32,7 @@ export class MyElement extends LitElement {
   }
   render() {
     return html`
-    <get-data url="https://rickandmortyapi.com/api/character" method="GET"></get-data>
+    <get-data></get-data>
       <div class="container">
         ${this.dateTEmplate}
       </div>    
@@ -62,7 +62,7 @@ export class MyElement extends LitElement {
         flex-wrap: wrap;
         flex-direction: row;
         height: 42vh;
-        width: 20vw;
+        width: 30vw;
         overflow-y: scroll;
         // background: red;
       }
