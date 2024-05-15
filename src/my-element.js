@@ -15,36 +15,41 @@ export class MyElement extends LitElement {
       this._dataFormat(e.detail)
     })
   }
-  //Ejemplo usando una api externa
-  _dataFormat(data){
-    let characters=[];
-    
-    data["tracks"].forEach((character)=>{
-      characters.push({
-        img:character.image,
-        name:character.name,
-        status:character.status,
-        species:character.species,
-      })
-    });
-    
-    this.wiki=characters;
+  _dataFormat(data) {
+   
+    let music = [];
+    if (data.tracks) {
+      console.log(data.tracks)
+      data.tracks.forEach((track) => {
+        const releaseYear = new Date(track.album.release_date).getFullYear();
+        music.push({
+          img: track.album.images[1].url,
+          name: track.name,
+          singer: track.artists[0].name,
+          age: releaseYear,
+          popularity: track.popularity
+        });
+      });
+      music.sort((a, b) => b.popularity - a.popularity);
+    }
+    this.wiki = music;
   }
   render() {
     return html`
-    <get-data></get-data>
+    <get-data></get-data>   
       <div class="container">
         ${this.dateTEmplate}
-      </div>    
+      </div> 
+
     `
   }
   get dateTEmplate(){
     return html`
-      ${this.wiki.map(character=>html`
+      ${this.wiki.map(music=>html`
         <div class="card">
-          <img src="${character.img}">
-          <p>${character.name}</p>
-          <short>${character.species}, ${character.status}</short>
+          <img src="${music.img}">
+          <p>${music.name}</p>
+          <short>${music.singer}, ${music.age}</short>
       `)}
     `
   }
@@ -61,16 +66,16 @@ export class MyElement extends LitElement {
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
-        height: 42vh;
-        width: 30vw;
+        height: 44vh;
+        width: 20vw;
         overflow-y: scroll;
-        // background: red;
+        //background: red;
       }
       .container::-webkit-scrollbar{
         display: none;
       }
       .card{
-        height: 190px;
+        height: 200px;
         width: 180px;
         // background: blue;
         margin: 5px;
@@ -107,6 +112,7 @@ box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
       
       .card short{
         color: gray;
+        font-size: 17px;
       }
     `
   }
