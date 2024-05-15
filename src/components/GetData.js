@@ -34,7 +34,11 @@ export class GetData extends LitElement {
             const response = await fetch(url, options);
             if (response.ok) {
                 const result = await response.json();
-                this._sendData(result);
+                if (result.tracks && Array.isArray(result.tracks)) {
+                    this._sendData(result.tracks); // Solo enviamos los datos de la propiedad "tracks"
+                } else {
+                    console.error("No se encontraron datos de tracks en la respuesta.");
+                }
             } else {
                 console.error("Error fetching data:", response.status, response.statusText);
             }

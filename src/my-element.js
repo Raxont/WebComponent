@@ -16,11 +16,11 @@ export class MyElement extends LitElement {
     })
   }
   _dataFormat(data) {
-   
+
     let music = [];
-    if (data.tracks) {
-      console.log(data.tracks)
-      data.tracks.forEach((track) => {
+    if (data) {
+      data.forEach((track) => {
+        console.log(track);
         const releaseYear = new Date(track.album.release_date).getFullYear();
         music.push({
           img: track.album.images[1].url,
