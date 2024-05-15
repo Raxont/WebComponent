@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit'
-import "./components/GetData.js"
+import "../modules/GetData"
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -16,11 +16,9 @@ export class MyElement extends LitElement {
     })
   }
   _dataFormat(data) {
-
     let music = [];
     if (data) {
       data.forEach((track) => {
-        console.log(track);
         const releaseYear = new Date(track.album.release_date).getFullYear();
         music.push({
           img: track.album.images[1].url,
@@ -40,7 +38,6 @@ export class MyElement extends LitElement {
       <div class="container">
         ${this.dateTEmplate}
       </div> 
-
     `
   }
   get dateTEmplate(){
@@ -53,8 +50,6 @@ export class MyElement extends LitElement {
       `)}
     `
   }
-  
-
 
 
   static get styles() {
@@ -67,7 +62,7 @@ export class MyElement extends LitElement {
         flex-wrap: wrap;
         flex-direction: row;
         height: 44vh;
-        width: 20vw;
+        width: 22vw;
         overflow-y: scroll;
         //background: red;
       }
@@ -94,8 +89,8 @@ export class MyElement extends LitElement {
         margin: 5px;
         border: 1px solid gray;
         -webkit-box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
--moz-box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
-box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
+        -moz-box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
+        box-shadow: 2px 8px 19px -11px rgba(0,0,0,0.47);
       }
       .card short,
       .card p{
