@@ -13,16 +13,8 @@ export class GetData extends LitElement {
         this.getData();
     }
 
-    _sendData(data) {
-        this.dispatchEvent(new CustomEvent("ApiData", {
-            detail: data,
-            bubbles: true,
-            composed: true
-        }));
-    }
-
     async getData() {
-        //  const url = 'https://spotify23.p.rapidapi.com/recommendations/?limit=20&seed_tracks=0c6xIDDpzE81m2q797ordA&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=classical%2Ccountry';
+        const url = 'https://spotify23.p.rapidapi.com/recommendations/?limit=20&seed_tracks=0c6xIDDpzE81m2q797ordA&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=classical%2Ccountry';
         const options = {
             method: 'GET',
             headers: {
@@ -35,7 +27,7 @@ export class GetData extends LitElement {
             if (response.ok) {
                 const result = await response.json();
                 if (result.tracks && Array.isArray(result.tracks)) {
-                    this._sendData(result.tracks); // Solo enviamos los datos de la propiedad "tracks"
+                    this._sendData(result.tracks);
                 } else {
                     console.error("No se encontraron datos de tracks en la respuesta.");
                 }
@@ -45,6 +37,14 @@ export class GetData extends LitElement {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+    }
+
+    _sendData(data) {
+        this.dispatchEvent(new CustomEvent("ApiData", {
+            detail: data,
+            bubbles: true,
+            composed: true
+        }));
     }
 }
 

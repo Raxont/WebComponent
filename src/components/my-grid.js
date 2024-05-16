@@ -1,9 +1,10 @@
 import { LitElement, html, css } from "lit";
-import "./my-element";
-import "./my-tracklist";
-import "./my-leftbar";
+import "./my-element.js";
+import "./my-tracklist.js";
+import "./my-leftbar.js";
+import "./my-player.js";
 
-export class myGrid extends LitElement {
+export class MyGrid extends LitElement {
   static styles = css`
     :host {
       margin: 0;
@@ -32,33 +33,52 @@ export class myGrid extends LitElement {
 
     .item_1 {
       grid-area: item_1;
-      width:100%;
+      width: 100%;
+    }
+    .item_1::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 75.6%;
+      width: 1px;
+      background-color: grey;
+      z-index: 1000;
     }
     .item_2 {
       grid-area: item_2;
     }
     .item_3 {
       grid-area: item_3;
-      background-color: aqua;
     }
     .item_4 {
       grid-area: item_4;
-      background-color: blueviolet;
+      height: 100%;
+    }
+    .item_4::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 28.1%;
+      width: 1px;
+      background-color: grey;
+      z-index: 1000;
     }
 
     .item_5 {
       grid-area: item_5;
       display: flex;
       flex-direction: column;
-      /* background-color: blue; */
       justify-content: space-around;
       padding: 6%;
     }
+
     .item_5 h1 {
       font-size: 2.5em;
       width: 100%;
-      /* background-color: gold; */
     }
+
     .item_5__container {
       width: 100%;
       height: 50%;
@@ -66,15 +86,53 @@ export class myGrid extends LitElement {
       justify-content: space-between;
       align-items: end;
     }
-    .item_5__container div {
+
+    .item_5__container h2 {
+      font-size: 1.6em;
+    }
+
+    .item_5__container .dropdown {
+      position: relative;
       font-size: 1.3em;
       color: gray;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .item_5__container h2 {
-      font-size: 1.6em;
+
+    .item_5__container .dropdown button {
+      padding: 10px 20px;
+      font-size: 1.3em;
+      cursor: pointer;
+      background-color: #f1f1f1;
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .item_5__container .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      right: 0;
+    }
+
+    .item_5__container .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .item_5__container .dropdown-content a:hover {
+      background-color: grey;
+    }
+
+    .item_5__container .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     .item_5__container div i {
@@ -89,7 +147,6 @@ export class myGrid extends LitElement {
 
     .item_6 {
       grid-area: item_6;
-      /* background-color: brown; */
       display: flex;
       align-items: center;
       padding-left: 6%;
@@ -101,8 +158,7 @@ export class myGrid extends LitElement {
     .item_7 {
       height: 100%;
       grid-area: item_7;
-    //   background: red;
-      padding: .5em 0em 0em .5em;
+      padding: 0.5em 0em 0em 0.5em;
     }
     .item_7 h1 {
       margin-block-start: 0em;
@@ -113,11 +169,10 @@ export class myGrid extends LitElement {
       width: 100%;
       display: flex;
       flex-direction: column;
-      
     }
-    .item_7_icons{
-        font-size:2em;
-        color: grey;
+    .item_7_icons {
+      font-size: 2em;
+      color: grey;
     }
     .item_7_icons a:-webkit-any-link {
       text-decoration: none;
@@ -133,13 +188,10 @@ export class myGrid extends LitElement {
       grid-area: item_8;
       height: 100%;
       overflow: scroll;
-    //   background: blue;
     }
     .item_8::-webkit-scrollbar {
       display: none;
     }
-
-    
 
     @media (width < 700px) {
       main {
@@ -169,6 +221,14 @@ export class myGrid extends LitElement {
     }
   `;
 
+  static properties = {
+    option: { type: String },
+  };
+
+  constructor() {
+    super();
+    this.option = 'week';
+  }
   render() {
     return html`
       <link
@@ -180,26 +240,33 @@ export class myGrid extends LitElement {
           <my-leftbar></my-leftbar>
         </div>
         <div class="item_2">
-          <my-element></my-element>
+          <my-element .content="${this.content}"></my-element>
         </div>
         <div class="item_3">
-        <my-tracklist></my-tracklist></div>
-        <div class="item_4"></div>
+          <my-tracklist></my-tracklist>
+        </div>
+        <div class="item_4">
+          <my-player></my-player>
+        </div>
         <div class="item_5">
           <h1>Discover new music</h1>
           <div class="item_5__container">
             <h2>Top-chart</h2>
-            <div>
-              <h4>Week</h4>
-              <a>
-                <i class="bx bx-chevron-down"></i>
-              </a>
+            <div class="dropdown">
+              <button id="dropdown-button">
+                Week <i class="bx bx-chevron-down"></i>
+              </button>
+              <div id="dropdown-menu" class="dropdown-content">
+                <a href="#" data-option="week">Week</a>
+                <a href="#" data-option="month">Month</a>
+                <a href="#" data-option="year">Year</a>
+              </div>
             </div>
           </div>
         </div>
+      </div>
         <div class="item_6">
           <h3>You may like</h3>
-          
         </div>
         <div class="item_7">
           <h1>Track list</h1>
@@ -221,6 +288,21 @@ export class myGrid extends LitElement {
       </main>
     `;
   }
+  firstUpdated() {
+    const dropdownButtons = this.shadowRoot.querySelectorAll('.dropdown-content a');
+    dropdownButtons.forEach(button => {
+      button.addEventListener('click', this.changeOption.bind(this));
+    });
+  }
+
+  changeOption(event) {
+    event.preventDefault();
+    const option = event.target.getAttribute('data-option');
+    console.log('Opción seleccionada:', option); 
+    this.option = option;
+  }
+
+  
 }
 
-customElements.define("my-grid", myGrid);
+customElements.define("my-grid", MyGrid);

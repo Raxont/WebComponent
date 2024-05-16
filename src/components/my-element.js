@@ -1,19 +1,27 @@
 import { LitElement, css, html } from 'lit'
-import "../modules/GetData"
+import "../modules/GetData.js"
 
 export class MyElement extends LitElement {
   static get properties() {
     return {
       wiki: { type: Array },
+      option: { type: String }
     }
   }
 
   constructor() {
     super();
-    this.wiki=[];	
+    this.option = 'week'; 
+    this.wiki = [];
     this.addEventListener('ApiData',(e)=>{
       this._dataFormat(e.detail)
-    })
+    });
+  }
+  updated(changedProperties) {
+    if (changedProperties.has('option')) {
+      console.log('Opción actualizada:', this.option);
+      this.getData(); 
+    }
   }
   _dataFormat(data) {
     let music = [];
@@ -34,8 +42,9 @@ export class MyElement extends LitElement {
   }
   render() {
     return html`
-    <get-data></get-data>   
+    
       <div class="container">
+      <get-data></get-data>
         ${this.dateTEmplate}
       </div> 
     `
@@ -48,7 +57,7 @@ export class MyElement extends LitElement {
           <p>${music.name}</p>
           <short>${music.singer}, ${music.age}</short>
       `)}
-    `
+    `;
   }
 
 
