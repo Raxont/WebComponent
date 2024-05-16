@@ -13,7 +13,7 @@ export class myGrid extends LitElement {
       width: 100%;
       height: 100vh;
       display: grid;
-      grid-template-columns: 0.7fr 4fr 8fr 4fr;
+      grid-template-columns: 0.5fr 4fr 8fr 4fr;
       grid-template-rows: repeat(12, 1fr);
       grid-template-areas:
         "item_1 item_5 item_4 item_7"
@@ -32,7 +32,7 @@ export class myGrid extends LitElement {
 
     .item_1 {
       grid-area: item_1;
-      background-color: red;
+      width:100%;
     }
     .item_2 {
       grid-area: item_2;
@@ -87,9 +87,19 @@ export class myGrid extends LitElement {
       margin-left: 5px;
     }
 
+    .item_6 {
+      grid-area: item_6;
+      /* background-color: brown; */
+      display: flex;
+      align-items: center;
+      padding-left: 6%;
+    }
+    .item_6 h3 {
+      font-size: 1.6em;
+    }
+
     .item_7 {
-      width: 100%;
-      height: 95%;
+      height: 100%;
       grid-area: item_7;
     //   background: red;
       padding: .5em 0em 0em .5em;
@@ -107,9 +117,11 @@ export class myGrid extends LitElement {
     }
     .item_7_icons{
         font-size:2em;
-        color:grey;
+        color: grey;
     }
-    
+    .item_7_icons a:-webkit-any-link {
+      text-decoration: none;
+    }
     .item_7__container p {
       color: gray;
       font-size: 1.3em;
@@ -127,16 +139,7 @@ export class myGrid extends LitElement {
       display: none;
     }
 
-    .item_6 {
-      grid-area: item_6;
-      /* background-color: brown; */
-      display: flex;
-      align-items: center;
-      padding-left: 6%;
-    }
-    .item_6 h3 {
-      font-size: 1.6em;
-    }
+    
 
     @media (width < 700px) {
       main {
@@ -174,7 +177,7 @@ export class myGrid extends LitElement {
       />
       <main>
         <div class="item_1">
-        <my-leftbar></my-leftbar>
+          <my-leftbar></my-leftbar>
         </div>
         <div class="item_2">
           <my-element></my-element>
@@ -202,8 +205,12 @@ export class myGrid extends LitElement {
           <h1>Track list</h1>
           <div class="item_7__container">
             <div class="item_7_icons">
-              <i class="bx bx-skip-next"></i>
-              <i class="bx bxs-chevrons-right"></i>
+              <a href="#">
+                <img src="../../public/img/Group 45.svg" />
+              </a>
+              <a href="#">
+                <img src="../../public/img/Group 44.svg" />
+              </a>
             </div>
             <p>Playing next</p>
           </div>
