@@ -13,16 +13,18 @@ export class MyElement extends LitElement {
     super();
     this.option = 'week'; 
     this.wiki = [];
-    this.addEventListener('ApiData',(e)=>{
-      this._dataFormat(e.detail)
+    this.addEventListener('ApiData', (e) => {
+      this._dataFormat(e.detail);
     });
   }
+
   updated(changedProperties) {
     if (changedProperties.has('option')) {
       console.log('Opción actualizada:', this.option);
-      this.getData(); 
+      this._getData();
     }
   }
+
   _dataFormat(data) {
     let music = [];
     if (data) {
@@ -40,24 +42,33 @@ export class MyElement extends LitElement {
     }
     this.wiki = music;
   }
+
   render() {
     return html`
-    
       <div class="container">
-      <get-data></get-data>
-        ${this.dateTEmplate}
+        <get-data id="getDataComponent" .option=${this.option}></get-data>
+        ${this.dateTemplate}
       </div> 
-    `
+    `;
   }
-  get dateTEmplate(){
+
+  get dateTemplate() {
     return html`
-      ${this.wiki.map(music=>html`
+      ${this.wiki.map(music => html`
         <div class="card">
           <img src="${music.img}">
           <p>${music.name}</p>
           <short>${music.singer}, ${music.age}</short>
+        </div>
       `)}
     `;
+  }
+
+  _getData() {
+    const getDataComponent = this.shadowRoot.getElementById('getDataComponent');
+    if (getDataComponent) {
+      getDataComponent.getData(); 
+    }
   }
 
 

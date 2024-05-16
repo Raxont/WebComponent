@@ -50,6 +50,11 @@ export class MyGrid extends LitElement {
     }
     .item_3 {
       grid-area: item_3;
+      overflow:scroll;
+      height: 90%;
+    }
+    .item_3::-webkit-scrollbar {
+      display: none;
     }
     .item_4 {
       grid-area: item_4;
@@ -84,7 +89,7 @@ export class MyGrid extends LitElement {
       height: 50%;
       display: flex;
       justify-content: space-between;
-      align-items: end;
+      align-items: center;
     }
 
     .item_5__container h2 {
@@ -93,7 +98,7 @@ export class MyGrid extends LitElement {
 
     .item_5__container .dropdown {
       position: relative;
-      font-size: 1.3em;
+      font-size: 1em;
       color: gray;
       display: flex;
       align-items: center;
@@ -101,8 +106,8 @@ export class MyGrid extends LitElement {
     }
 
     .item_5__container .dropdown button {
-      padding: 10px 20px;
-      font-size: 1.3em;
+      padding: 5px 10px;
+      font-size: 1em;
       cursor: pointer;
       background-color: #f1f1f1;
       border: none;
@@ -114,15 +119,16 @@ export class MyGrid extends LitElement {
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      min-width: 160px;
+      min-width: 5vw;
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 1;
       right: 0;
+      margin-top: 70px;
     }
 
     .item_5__container .dropdown-content a {
       color: black;
-      padding: 12px 16px;
+      padding: 10px 10px;
       text-decoration: none;
       display: block;
     }
@@ -142,7 +148,6 @@ export class MyGrid extends LitElement {
       align-items: center;
       justify-content: center;
       color: gainsboro;
-      margin-left: 5px;
     }
 
     .item_6 {
@@ -222,12 +227,14 @@ export class MyGrid extends LitElement {
   `;
 
   static properties = {
-    option: { type: String },
+    content: { type: String },
+    selectedOption: { type: String }
   };
 
   constructor() {
     super();
-    this.option = 'week';
+    this.content = 'Contenido de la sección que se va a recargar.';
+    this.selectedOption = 'Week';
   }
   render() {
     return html`
@@ -254,12 +261,12 @@ export class MyGrid extends LitElement {
             <h2>Top-chart</h2>
             <div class="dropdown">
               <button id="dropdown-button">
-                Week <i class="bx bx-chevron-down"></i>
+              ${this.selectedOption}<i class="bx bx-chevron-down"></i>
               </button>
               <div id="dropdown-menu" class="dropdown-content">
-                <a href="#" data-option="week">Week</a>
-                <a href="#" data-option="month">Month</a>
-                <a href="#" data-option="year">Year</a>
+                <a href="#" @click="${this.reloadSection}" data-option="week">Week</a>
+                <a href="#" @click="${this.reloadSection}" data-option="month">Month</a>
+                <a href="#" @click="${this.reloadSection}" data-option="year">Year</a>
               </div>
             </div>
           </div>
@@ -288,21 +295,15 @@ export class MyGrid extends LitElement {
       </main>
     `;
   }
-  firstUpdated() {
-    const dropdownButtons = this.shadowRoot.querySelectorAll('.dropdown-content a');
-    dropdownButtons.forEach(button => {
-      button.addEventListener('click', this.changeOption.bind(this));
-    });
-  }
-
-  changeOption(event) {
+  reloadSection(event) {
     event.preventDefault();
     const option = event.target.getAttribute('data-option');
-    console.log('Opción seleccionada:', option); 
-    this.option = option;
+    this.selectedOption = option;
+    const myElement = this.shadowRoot.querySelector('my-element');
+    if (myElement) {
+      myElement.option = option; 
+    }
   }
-
-  
 }
 
 customElements.define("my-grid", MyGrid);

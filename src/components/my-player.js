@@ -90,6 +90,7 @@ export class MyElement extends LitElement {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      align-items: center;
       background: #6fcf9752;
       width: 18vh;
       border-radius: 1vh;

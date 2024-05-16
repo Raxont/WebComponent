@@ -12,7 +12,7 @@ export class MyElement extends LitElement {
   }
 
   async loadSong() {
-    //const url = 'https://spotify23.p.rapidapi.com/artist_singles/?id=2w9zwq3AktTeYYMuhMjju8&offset=0';
+    const url = 'https://spotify23.p.rapidapi.com/artist_singles/?id=2w9zwq3AktTeYYMuhMjju8&offset=0';
     const options = {
       method: "GET",
       headers: {
